@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Directory</p>
+      <h1>Edit student</h1>
+    </div>
+  </div>
+
+  <form class="form-card form-card-wide" action="{{ url_for('edit_student', student_id=student.id) }}" method="post">
+    <label>Name<input name="name" value="{{ student.name }}" required autocomplete="name"></label>
+    <label>Email<input name="email" type="email" value="{{ student.email }}" required autocomplete="email"></label>
+    <label>Course<input name="course" value="{{ student.course }}" required></label>
+    <div class="form-actions">
+      <button class="button" type="submit">Save changes</button>
+      <a class="link-button" href="{{ url_for('students') }}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

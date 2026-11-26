@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">MEVI Workshop</p>
+      <h1>Welcome to your dashboard</h1>
+      <p>A quick overview of your students, courses, and recent enrollments.</p>
+    </div>
+    <a class="button hero-button" href="{{ url_for('students') }}">Manage students <span aria-hidden="true">&rarr;</span></a>
+  </section>
+
+  <section class="stats">
+    <article class="stat-card">
+      <span class="stat-label">Total students</span>
+      <strong>{{ total_students }}</strong>
+      <span class="stat-note">Registered in your directory</span>
+    </article>
+    <article class="stat-card">
+      <span class="stat-label">Active courses</span>
+      <strong>{{ total_courses }}</strong>
+      <span class="stat-note">Courses with enrollments</span>
+    </article>
+    <article class="stat-card">
+      <span class="stat-label">New this month</span>
+      <strong>{{ new_this_month }}</strong>
+      <span class="stat-note">Recent enrollments</span>
+    </article>
+  </section>
+
+  <section class="dashboard-grid">
+    <article class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Enrollment activity</h2>
+          <p class="muted">New students over the last six months</p>
+        </div>
+        <span class="period-badge">Last 6 months</span>
+      </div>
+      <div class="chart" role="img" aria-label="Monthly enrollments for the last six months">
+        {% for month in chart_months %}
+          <div class="chart-column">
+            <span class="chart-count" data-count="{{ month.count }}">{{ month.count }}</span>
+            <div class="chart-track">
+              <div class="chart-bar" style="height: {{ month.height }}%"></div>
+            </div>
+            <span class="chart-month">{{ month.label }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="panel recent-panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Recent students</h2>
+          <p class="muted">Latest additions to your directory</p>
+        </div>
+        <a class="text-link" href="{{ url_for('students') }}">View all</a>
+      </div>
+      {% if recent_students %}
+        <div class="recent-list">
+          {% for student in recent_students %}
+            <div class="recent-row">
+              <span class="student-avatar" aria-hidden="true">{{ student.name[:1]|upper }}</span>
+              <div class="student-summary">
+                <strong>{{ student.name }}</strong>
+                <span>{{ student.course }} <span aria-hidden="true">&middot;</span> {{ student.email }}</span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state compact-empty">
+          <h3>No students yet</h3>
+          <p><a href="{{ url_for('students') }}">Add your first student</a> to see them here.</p>
+        </div>
+      {% endif %}
+    </article>
+  </section>
+{% endblock %}

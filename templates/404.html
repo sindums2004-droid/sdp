@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="empty-state">
+    <p class="eyebrow">404</p>
+    <h1>Student not found</h1>
+    <p><a href="{{ url_for('students') }}">Return to students</a></p>
+  </section>
+{% endblock %}
